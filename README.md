@@ -1,3 +1,3 @@
 # Chatroom
 
-This is an example For creating a simple web socket chatroom server with a webclient
+This is an example for creating a simple web socket chatroom server with a webclient in javascript, using node.
