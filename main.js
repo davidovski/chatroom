@@ -11,25 +11,28 @@ var log = []
 
 // Initialise a simple http server to serve any static files
 http.createServer((req, res) => {
-
-	// normalise path name to stay within a normal directory
-	var requestUrl = url.parse(req.url);
-	var fsPath = static_content + path.normalize(requestUrl.pathname);
-	
-	// automatically return the index of a directory, if its been selected
-	if (fs.statSync(fsPath).isDirectory()) 
-		fsPath += fsPath.endsWith("/") ? "index.html" : "/index.html";
-	
-	// read and send the file
-	fs.readFile(fsPath, (err, data) => {
-		if (err) {
-			res.writeHead(404);
-			res.end(JSON.stringify(err))
-		} else {
-			res.writeHead(200);
-			res.end(data);
-		}
-	});
+	try {
+		// normalise path name to stay within a normal directory
+		var requestUrl = url.parse(req.url);
+		var fsPath = static_content + path.normalize(requestUrl.pathname);
+		
+		// automatically return the index of a directory, if its been selected
+		if (fs.statSync(fsPath).isDirectory()) 
+			fsPath += fsPath.endsWith("/") ? "index.html" : "/index.html";
+		
+		// read and send the file
+		fs.readFile(fsPath, (err, data) => {
+			if (err) {
+				res.writeHead(404);
+				res.end(JSON.stringify(err))
+			} else {
+				res.writeHead(200);
+				res.end(data);
+			}
+		});
+	} catch (ex) {
+		console.log(ex)
+	}
 }).listen(8080);
 
 // create websocket: client tracking allows us to get a set of clients so that we can send messages to each client once they appear
