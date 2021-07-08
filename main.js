@@ -45,7 +45,7 @@ wss.on("connection", ws => {
 		// Ensure that nickname requirements are met before setting client's nick
 		if (data.nickname && data.nickname.length < 24 && data.nickname.length > 0) nick = data.nickname;
 
-		switch data.event {
+		switch (data.event) {
 			case "join":
 				// send the client the requested number of messages before joining
 				if (data.lines) log.slice(0-data.lines).forEach(l => ws.send(l))
